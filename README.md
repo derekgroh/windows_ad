@@ -12,7 +12,7 @@ This cookbook installs Active Directory Domain Services on Windows Server includ
 
 ## Usage
 
-This is a library style cookbook that provides a set of resources to install and configure Windows ADDS in a composable way. It is intended to be used in your own wrapper cookbook suited to your specific needs. You can see example usage in the recipes of the [windows_ad_test](https://github.com/TAMUarch/cookbook.windows_ad/blob/master/test/cookbooks/windows_ad_test/recipes/) cookbook that is included in this repo. These recipes are used as part of integration testing.
+This is a library style cookbook that provides a set of resources to install and configure Windows ADDS in a composable way. It is intended to be used in your own wrapper cookbook suited to your specific needs. You can see example usage in the recipes of the [windows_ad_test](https://github.com/sous-chefs/windows_ad/blob/master/test/cookbooks/windows_ad_test/recipes/) cookbook that is included in this repo. These recipes are used as part of integration testing.
 
 * add `depends 'windows_ad'` to the metadata.rb for your cookbook.
 * use the provided resources in your cookbook
