@@ -5,7 +5,7 @@ end
 reboot 'now' do
   action :nothing
   reason 'Cannot continue Chef run without a reboot.'
-  delay_mins 1
+  delay_mins 2
   not_if { ::File.exist?('C:\rebootsuccess.txt') }
 end
 
