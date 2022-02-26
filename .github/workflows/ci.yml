@@ -19,7 +19,7 @@ jobs:
           - 'windows-2016'
         suite:
           - 'default'
-          - 'forest'
+          - 'reboot'
       fail-fast: false
 
     steps:
