@@ -1,5 +1,5 @@
 file 'C:\reboot.txt' do
-  notifies :reboot_now, 'reboot[now]', :immediately
+  notifies :request_reboot, 'reboot[now]', :immediately
 end
 
 reboot 'now' do
