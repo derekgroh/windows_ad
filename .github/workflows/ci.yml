@@ -4,38 +4,14 @@ name: ci
 "on":
   pull_request:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  delivery:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Run Chef Delivery
-        uses: actionshub/chef-delivery@main
-        env:
-          CHEF_LICENSE: accept-no-persist
+  lint-unit:
+    uses: sous-chefs/.github/.github/workflows/lint-unit.yml@0.0.3
 
-  yamllint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Run yaml Lint
-        uses: actionshub/yamllint@main
-
-  mdl:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Run Markdown Lint
-        uses: actionshub/markdownlint@main
-
-  integration-windows-2016:
-    needs: [mdl, yamllint, delivery]
+  integration-windows-2016:  # EOL March 15
+    needs: lint-unit
     runs-on: windows-2016
     strategy:
       matrix:
@@ -50,19 +26,18 @@ jobs:
         uses: actions/checkout@v2
       - name: Install Chef
         uses: actionshub/chef-install@main
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-      - name: Kitchen Exec
+      - name: test-kitchen
         uses: actionshub/test-kitchen@main
         env:
           CHEF_LICENSE: accept-no-persist
-          KITCHEN_LOCAL_YAML: kitchen.exec.yml
+          KITCHEN_LOCAL_YAML: kitchen_exec.yml
+          # ACTIONS_ALLOW_UNSECURE_COMMANDS: true  # allow path editing
         with:
           suite: ${{ matrix.suite }}
           os: ${{ matrix.os }}
 
   integration-windows-2019:
-    needs: [mdl, yamllint, delivery]
+    needs: lint-unit
     runs-on: windows-2019
     strategy:
       matrix:
@@ -77,13 +52,38 @@ jobs:
         uses: actions/checkout@v2
       - name: Install Chef
         uses: actionshub/chef-install@main
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-      - name: Kitchen Exec
+      - name: test-kitchen
         uses: actionshub/test-kitchen@main
         env:
           CHEF_LICENSE: accept-no-persist
-          KITCHEN_LOCAL_YAML: kitchen.exec.yml
+          KITCHEN_LOCAL_YAML: kitchen_exec.yml
+          # ACTIONS_ALLOW_UNSECURE_COMMANDS: true  # allow path editing
+        with:
+          suite: ${{ matrix.suite }}
+          os: ${{ matrix.os }}
+
+  integration-windows-2022:
+    needs: lint-unit
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        os:
+          - 'windows-2022'
+        suite:
+          - 'default'
+      fail-fast: false
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Install Chef
+        uses: actionshub/chef-install@main
+      - name: test-kitchen
+        uses: actionshub/test-kitchen@main
+        env:
+          CHEF_LICENSE: accept-no-persist
+          KITCHEN_LOCAL_YAML: kitchen_exec.yml
+          # ACTIONS_ALLOW_UNSECURE_COMMANDS: true  # allow path editing
         with:
           suite: ${{ matrix.suite }}
           os: ${{ matrix.os }}
