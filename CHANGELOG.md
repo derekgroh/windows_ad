@@ -1,5 +1,7 @@
 # CHANGELOG for windows_ad
 
+## Unreleased
+
 ## 0.7.2
 
 * Add compatibility for Chef 16
