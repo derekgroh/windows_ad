@@ -9,7 +9,7 @@ transport:
   name: winrm
   elevated: true
   # Prevent Winrm from failing out when DC is created.
-  connection_retry_sleep: 300
+  # connection_retry_sleep: 300
 
 provisioner:
   name: chef_zero
