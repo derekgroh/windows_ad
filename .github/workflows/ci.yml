@@ -19,6 +19,7 @@ jobs:
           - 'windows-2016'
         suite:
           - 'default'
+          - 'forest'
       fail-fast: false
 
     steps:
@@ -45,6 +46,7 @@ jobs:
           - 'windows-2019'
         suite:
           - 'default'
+          - 'forest'
       fail-fast: false
 
     steps:
@@ -71,6 +73,7 @@ jobs:
           - 'windows-2022'
         suite:
           - 'default'
+          - 'forest'
       fail-fast: false
 
     steps:
