@@ -1,12 +1,23 @@
-file 'C:\reboot.txt' do
-  notifies :reboot_now, 'reboot[now]', :immediately
+%w(
+  Microsoft-Windows-GroupPolicy-ServerAdminTools-Update
+  ServerManager-Core-RSAT
+  ServerManager-Core-RSAT-Role-Tools
+  RSAT-AD-Tools-Feature
+  RSAT-ADDS-Tools-Feature
+  ActiveDirectory-Powershell
+  DirectoryServices-DomainController-Tools
+  DirectoryServices-AdministrativeCenter
+  DirectoryServices-DomainController
+).each do |feature|
+  windows_feature feature do
+    action :install
+    install_method :windows_feature_dism
+    all true
+    notifies :request_reboot, 'reboot[ADDS]', :immediately
+  end
 end
 
-reboot 'now' do
+reboot 'ADDS' do
+  delay_mins 1
   action :nothing
-  reason 'Cannot continue Chef run without a reboot.'
-  delay_mins 5
-  not_if { ::File.exist?('C:\rebootsuccess.txt') }
 end
-
-file 'C:\rebootsuccess.txt'
