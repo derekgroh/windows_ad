@@ -13,7 +13,7 @@
     action :install
     install_method :windows_feature_dism
     all true
-    notifies :request_reboot, 'reboot[ADDS]', :immediately
+    notifies :reboot_now, 'reboot[ADDS]', :immediately
   end
 end
 
