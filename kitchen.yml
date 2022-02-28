@@ -9,13 +9,13 @@ transport:
   name: winrm
   elevated: true
   # Prevent Winrm from failing out when DC is created.
-  # connection_retry_sleep: 300
+  connection_retry_sleep: 300
 
 provisioner:
   name: chef_zero
   deprecations_as_errors: true
   chef_license: accept-no-persist
-  log_level: debug
+  # log_level: debug
   # Allow reboots
   retry_on_exit_code:
     - 0
@@ -27,6 +27,9 @@ provisioner:
     - 1190  # 1190 is the exit code signaling that a reboot is scheduled
   max_retries: 60
   wait_for_retry: 300  # May need to increase depending on computing resources.
+  client_rb:
+    exit_status: :enabled # Opt-in to the standardized exit codes
+    client_fork: false  # Forked instances don't return the real exit code
 
 verifier:
   name: inspec

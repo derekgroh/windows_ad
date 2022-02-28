@@ -20,5 +20,4 @@ end
 reboot 'ADDS' do
   delay_mins 1
   action :nothing
-  ignore_failure true
 end
