@@ -37,11 +37,10 @@ jobs:
         with:
           suite: ${{ matrix.suite }}
           os: ${{ matrix.os }}
-      - name: Get stacktrace
-        id: stacktrace
-        run: echo ::set-output name=output::$(Get-Content D:/a/windows_ad/windows_ad/.kitchen/reboot-windows-2016-exec-script.ps1)
-      - name: Test output
-        run: echo ${{ steps.stacktrace.outputs.stdout }}
+      - name: "Read file contents"
+        uses: andstor/file-reader-action@v1
+        with:
+          path: "D:/a/windows_ad/windows_ad/.kitchen/reboot-windows-2016-exec-script.ps1"
 
 #  integration-windows-2019:
 #    needs: lint-unit
