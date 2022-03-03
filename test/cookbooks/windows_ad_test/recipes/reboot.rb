@@ -13,11 +13,18 @@
     action :install
     install_method :windows_feature_dism
     all true
-    notifies :reboot_now, 'reboot[ADDS]', :immediately
+    # notifies :reboot_now, 'reboot[ADDS]', :immediately
+    notifies :run, 'powershell_script[Reboot]', :immediately
   end
 end
 
 reboot 'ADDS' do
   delay_mins 1
   action :nothing
+end
+
+powershell_script 'Reboot' do
+  code 'shutdown /r /t 60'
+  action :nothing
+  returns [0, 35, 1190]
 end
