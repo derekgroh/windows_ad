@@ -11,6 +11,7 @@ transport:
 provisioner:
   name: chef_zero
   deprecations_as_errors: true
+  multiple_converge: 2
   # log_level: debug
   # Allow reboots
   retry_on_exit_code:
@@ -25,7 +26,7 @@ provisioner:
   max_retries: 60
   wait_for_retry: 300
   client_rb:
-    exit_status: :enabled # Opt-in to the standardized exit codes
+    exit_status: :enabled  # Opt-in to the standardized exit codes
     client_fork: false  # Forked instances don't return the real exit code
 
 platforms:
