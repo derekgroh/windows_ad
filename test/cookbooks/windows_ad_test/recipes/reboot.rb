@@ -21,5 +21,4 @@ end
 reboot 'ADDS' do
   delay_mins 1
   action :nothing
-  returns [0, 35, 1190]
 end
