@@ -12,7 +12,8 @@ default_action :create
 
 property :domain_user, String, required: true
 property :domain_pass, String, required: true
-property :restart, [true, false], required: true
+property :parent_domain_name, String
+property :restart, [TrueClass, FalseClass], required: true
 property :type, String, default: 'forest'
 property :safe_mode_pass, String, required: true
 property :options, Hash, default: {}
@@ -97,6 +98,10 @@ action_class do
         cmd << 'Install-ADDSForest'
       when 'domain'
         cmd << 'Install-ADDSDomain -Credential $mycreds'
+        if parent_domain_name && !parent_domain_name.empty?
+          cmd << ' -DomainType ChildDomain'
+          cmd << " -ParentDomainName '#{new_resource.parent_domain_name}'"
+        end
       when 'replica'
         cmd << 'Install-ADDSDomainController -Credential $mycreds'
       when 'read-only'
